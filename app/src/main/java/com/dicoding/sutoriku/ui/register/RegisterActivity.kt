@@ -2,14 +2,11 @@ package com.dicoding.sutoriku.ui.register
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.appcompat.app.*
+import androidx.core.view.*
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.sutoriku.R
 import com.dicoding.sutoriku.databinding.ActivityRegisterBinding

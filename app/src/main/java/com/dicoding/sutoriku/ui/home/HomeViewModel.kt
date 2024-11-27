@@ -1,13 +1,26 @@
 package com.dicoding.sutoriku.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
+import com.dicoding.sutoriku.data.Result
+import com.dicoding.sutoriku.data.repository.SutoriRepository
+import com.dicoding.sutoriku.data.response.sutori.ListStoryItem
+import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel (private val sutoriRepository: SutoriRepository): ViewModel() {
+    private val _story = MutableLiveData<Result<List<ListStoryItem?>>>()
+    val story: LiveData<Result<List<ListStoryItem?>>>
+        get() = _story
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    fun findStory() {
+        viewModelScope.launch {
+            try {
+                val result = sutoriRepository.getSutori()
+                _story.value = result
+            } catch (e: Exception) {
+                _story.value = Result.Error(e.message.toString())
+                Log.e("HomeViewModel", "Error: ${e.message.toString()}")
+            }
+        }
     }
-    val text: LiveData<String> = _text
 }

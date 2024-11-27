@@ -1,14 +1,12 @@
 package com.dicoding.sutoriku.ui.welcome
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
+import android.animation.*
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.*
 import com.dicoding.sutoriku.R
 import com.dicoding.sutoriku.databinding.ActivityWelcomeBinding
 import com.dicoding.sutoriku.ui.login.LoginActivity
@@ -26,6 +24,7 @@ class WelcomeActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        supportActionBar?.hide()
 
         setUpButton()
         playAnimation()

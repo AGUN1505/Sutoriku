@@ -1,13 +1,27 @@
 package com.dicoding.sutoriku.ui.userSetting
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.dicoding.sutoriku.data.pref.UserPreference
+import kotlinx.coroutines.launch
 
-class uSettingViewModel : ViewModel() {
+class uSettingViewModel (private val userPreference: UserPreference) : ViewModel() {
+    private val _userName = MutableLiveData<String>()
+    val userName: LiveData<String>
+        get() = _userName
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+    init {
+        getUserData()
     }
-    val text: LiveData<String> = _text
+
+    private fun getUserData() {
+        viewModelScope.launch {
+            _userName.value = userPreference.getUserName()
+        }
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            userPreference.clearUserData()
+        }
+    }
 }

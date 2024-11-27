@@ -1,17 +1,13 @@
 package com.dicoding.sutoriku.ui.login
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.dicoding.sutoriku.R
 import com.dicoding.sutoriku.data.pref.UserPreference
 import com.dicoding.sutoriku.data.repository.LoginRepository
 import com.dicoding.sutoriku.data.response.login.LoginResponse
 import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import retrofit2.HttpException
 
 class LoginViewModel(

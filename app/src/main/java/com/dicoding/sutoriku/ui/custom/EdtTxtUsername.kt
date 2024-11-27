@@ -56,7 +56,7 @@ class EdtTxtUsername @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        hint = "Masukkan Nama"
+        hint = "Username"
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
 

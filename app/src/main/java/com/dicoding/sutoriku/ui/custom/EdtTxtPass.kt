@@ -47,7 +47,7 @@ class EdtTxtPass @JvmOverloads constructor(
 
             override fun afterTextChanged(p0: Editable?) {
                 if (p0.toString().length < 8) {
-                    setError("Password tidak boleh kurang dari 8 karakter", null)
+                    setError(context.getString(R.string.password_error_length), null)
                 } else {
                     error = null
                 }

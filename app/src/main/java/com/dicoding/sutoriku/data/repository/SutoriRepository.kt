@@ -7,7 +7,6 @@ import com.dicoding.sutoriku.data.retrofit.ApiService
 class SutoriRepository private constructor(private val apiService: ApiService) {
     suspend fun getSutori(): Result<List<ListStoryItem?>> {
         try {
-
             val response = apiService.getStories()
             if (response.error == true) {
                 return Result.Error("Error: ${response.message}")

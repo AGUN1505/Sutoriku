@@ -33,7 +33,7 @@ class EdtTxtEmail @JvmOverloads constructor(
                 if (isEmailValid(p0.toString())) {
                     error = null
                 } else {
-                    setError("Email tidak valid", null)
+                    setError(context.getString(R.string.invalid_email), null)
                 }
             }
 
@@ -68,7 +68,7 @@ class EdtTxtEmail @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        hint = "Masukkan email"
+        hint = "Email"
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
 
