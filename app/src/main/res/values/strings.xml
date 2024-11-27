@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">SutoriKu</string>
+    <string name="title_home">Home</string>
+    <string name="title_sutori">Tambah Sutori</string>
+    <string name="title_notifications">User Setting</string>
+    <string name="title_welcome_page">Selamat Datang di Sutoriku\n</string>
+    <string name="message_welcome_page">Disini tempat untuk bercerita apa pun!\n</string>
+    <string name="login">Login</string>
+    <string name="signup">Register</string>
+    <string name="app_icon">App Icon</string>
+    <string name="title_signup_page">Lengkapi data dirimu di bawah ini ya</string>
+    <string name="register">Register</string>
+    <string name="sudah_siap_untuk_bercerita">Sudah siap untuk bercerita?</string>
+    <string name="masukkan_dulu_datamu_ya">masukkan dulu datamu ya</string>
+    <string name="string_login">Login</string>
+    <string name="icon_switch_camera">Putar kamera</string>
+    <string name="icon_take_photo">take photo</string>
+    <string name="add_sutori">add Sutori</string>
+    <string name="ceritakan_pengalamanmu">ceritakan pengalamanmu</string>
+    <string name="galeri">Galeri</string>
+    <string name="kamera">kamera</string>
+    <string name="create_by_name">Nama</string>
+    <string name="story_description">deskripsi</string>
+    <string name="dialog_login_succes">Login berhasil</string>>
+    <string name="message_login_failed">Login gagal, silakan coba lagi.</string>
+    <string name="login_failed_dialog">Ada masalah untuk mengakses server</string>
+    <string name="confirmation">Konfirmasi</string>
+    <string name="register_succes">registrasi sukses</string>
+    <string name="register_error">registasi gagal</string>
+    <string name="register_error_with_error_messege">Ada masalah untuk mengakses server</string>
+    <string name="failed_start_camera">gagal memulai kamera</string>
+    <string name="failed_take_photo">gagal mengambil foto</string>
+
+</resources>
