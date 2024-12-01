@@ -20,16 +20,23 @@ class addSutoriViewModel (private val addStoryRepository: AddSutoriRepository) :
     private val _uploadSuccess = MutableLiveData<Boolean>()
     val uploadSuccess: LiveData<Boolean> get() = _uploadSuccess
 
+    private val _location = MutableLiveData<Pair<Double?, Double?>>()
+    val location: LiveData<Pair<Double?, Double?>> get() = _location
+
+    fun setLocation(latitude: Double?, longitude: Double?) {
+        _location.value = Pair(latitude, longitude)
+    }
+
     fun setSelectImageUri(uri: Uri?) {
         _selectUriImage.value = uri
     }
 
-    fun uploadImage(photo: MultipartBody.Part, description: RequestBody
+    fun uploadImage(photo: MultipartBody.Part, description: RequestBody, lat: RequestBody?, lon: RequestBody?
     ) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val response = addStoryRepository.addSutori(photo, description)
+                val response = addStoryRepository.addSutori(photo, description, lat, lon)
                 _snackBar.value = response.message
                 _uploadSuccess.value = true
             } catch (e: Exception) {

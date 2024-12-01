@@ -25,6 +25,7 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
     }
 
     suspend fun saveUserData(token: String, id: String, name: String) {
+        clearUserData()
         dataStore.edit { preferences ->
             preferences[userToken] = token
             preferences[userId] = id
@@ -33,8 +34,8 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
     }
 
     suspend fun clearUserData() {
-        dataStore.edit {
-            it.clear()
+        dataStore.edit { preferences ->
+            preferences.clear()
         }
     }
 
@@ -50,5 +51,4 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
             }
         }
     }
-
 }

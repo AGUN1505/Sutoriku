@@ -2,10 +2,11 @@ package com.dicoding.sutoriku.ui.home
 
 import android.os.Bundle
 import android.view.*
-import com.dicoding.sutoriku.data.Result
+import androidx.core.view.isVisible
 import androidx.fragment.app.*
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.sutoriku.R
+import com.dicoding.sutoriku.data.adapter.LoadingStateAdapter
 import com.dicoding.sutoriku.data.adapter.SutoriAdapter
 import com.dicoding.sutoriku.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
@@ -28,38 +29,31 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupObservers()
-        setupRv()
-
-        homeViewModel.findStory()
+        setupObserver()
     }
 
-    override fun onResume() {
-        super.onResume()
-        homeViewModel.findStory()
-    }
-
-    private fun setupRv() {
+    private fun setupObserver() {
+        val adapter = SutoriAdapter()
         binding.rvSutori.layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvSutori.adapter = SutoriAdapter()
-    }
+        binding.rvSutori.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+        homeViewModel.story.observe(requireActivity()) {
+            adapter.submitData(lifecycle, it)
+        }
 
-    private fun setupObservers() {
-        homeViewModel.story.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Result.Loading -> binding.progressBar.visibility = View.VISIBLE
-                is Result.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    (binding.rvSutori.adapter as SutoriAdapter).submitList(result.data)
-                }
-
-                is Result.Error -> {
-                    binding.progressBar.visibility = View.GONE
+        adapter.addLoadStateListener { loadState ->
+            _binding?.let { binding ->
+                binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                if (loadState.source.refresh is LoadState.Error) {
+                    val error = (loadState.source.refresh as LoadState.Error).error
                     Snackbar.make(
-                        requireView(),
-                        getString(R.string.failed_load_story), Snackbar.LENGTH_SHORT
-                    )
-                        .show()
+                        binding.root,
+                        "Error: ${error.message}",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

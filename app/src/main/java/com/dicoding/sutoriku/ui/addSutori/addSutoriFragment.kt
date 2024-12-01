@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.*
 import androidx.navigation.NavOptions
@@ -18,6 +19,8 @@ import com.dicoding.sutoriku.R
 import com.dicoding.sutoriku.databinding.FragmentDashboardBinding
 import com.dicoding.sutoriku.ui.camera.CameraActivity
 import com.dicoding.sutoriku.utils.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -34,6 +37,7 @@ class addSutoriFragment : Fragment() {
     }
 
     private val appExecutors: AppExecutors by lazy { AppExecutors() }
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private val launchGallery = registerForActivityResult(
         ActivityResultContracts.GetContent()
@@ -72,6 +76,16 @@ class addSutoriFragment : Fragment() {
         }
     }
 
+    private val requestLocationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { permission: Boolean ->
+        if (permission) {
+            getLocation()
+        } else {
+            showSnackBar(getString(R.string.location_permission_denied))
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -81,12 +95,21 @@ class addSutoriFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         buttonClickListener()
         setupObserver()
 
         binding.btnGallery.setOnClickListener { startGallery() }
         binding.btnCamerax.setOnClickListener { startCameraX() }
+
+        binding.switchLocation.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                getLocation()
+            } else {
+                addStoryViewModel.setLocation(null, null)
+            }
+        }
 
         if (!allPermissionGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
@@ -106,6 +129,27 @@ class addSutoriFragment : Fragment() {
         )
     }
 
+    private fun getLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestLocationPermissionLauncher.launch(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            return
+        }
+
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                addStoryViewModel.setLocation(location.latitude, location.longitude)
+            } else {
+                showSnackBar(getString(R.string.location_not_found))
+            }
+        }
+    }
+
     private fun buttonClickListener() {
         binding.buttonAdd.setOnClickListener {
             val currentImageUri = addStoryViewModel.selectUriImage.value
@@ -118,13 +162,15 @@ class addSutoriFragment : Fragment() {
                         val reduceImageFile = imageFile.reduceFileImage()
                         val description = binding.edAddDescription.text.toString()
                         val requestBody = description.toRequestBody("text/plain".toMediaType())
-                        val requestImageFile =
-                            reduceImageFile.asRequestBody("image/jpeg".toMediaType())
+                        val requestImageFile = reduceImageFile.asRequestBody("image/jpeg".toMediaType())
                         val multiPart = MultipartBody.Part.createFormData(
                             "photo", reduceImageFile.name, requestImageFile
                         )
+                        val location = addStoryViewModel.location.value
+                        val lat = location?.first?.toString()?.toRequestBody("text/plain".toMediaType())
+                        val lon = location?.second?.toString()?.toRequestBody("text/plain".toMediaType())
                         appExecutors.mainThread.execute {
-                            addStoryViewModel.uploadImage(multiPart, requestBody)
+                            addStoryViewModel.uploadImage(multiPart, requestBody, lat, lon)
                         }
                     } catch (e: Exception) {
                         appExecutors.mainThread.execute {

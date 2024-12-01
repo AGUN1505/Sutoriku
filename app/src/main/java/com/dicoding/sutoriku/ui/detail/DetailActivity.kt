@@ -64,6 +64,9 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         }
+        detailViewModel.locationName.observe(this) { location ->
+            binding.tvLocation.text = location
+        }
     }
 
     private fun moveToDetail() {

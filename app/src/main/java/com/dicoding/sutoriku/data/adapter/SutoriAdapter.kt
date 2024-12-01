@@ -5,13 +5,14 @@ import android.content.Intent
 import android.view.*
 import androidx.core.util.Pair
 import androidx.core.app.ActivityOptionsCompat
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.Glide
 import com.dicoding.sutoriku.data.response.sutori.ListStoryItem
 import com.dicoding.sutoriku.databinding.ItemRowSutoriBinding
 import com.dicoding.sutoriku.ui.detail.DetailActivity
 
-class SutoriAdapter : ListAdapter<ListStoryItem, SutoriAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class SutoriAdapter : PagingDataAdapter<ListStoryItem, SutoriAdapter.MyViewHolder>(DIFF_CALLBACK) {
     class MyViewHolder(val binding: ItemRowSutoriBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(story: ListStoryItem) {
@@ -23,19 +24,18 @@ class SutoriAdapter : ListAdapter<ListStoryItem, SutoriAdapter.MyViewHolder>(DIF
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding =
-            ItemRowSutoriBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(
-            binding
-        )
+        val binding = ItemRowSutoriBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val story = getItem(position)
-        holder.bind(story)
+        if (story != null) {
+            holder.bind(story)
+        }
 
         holder.itemView.setOnClickListener {
-            val storyId = story.id
+            val storyId = story?.id
             val intentId = Intent(holder.itemView.context, DetailActivity::class.java).apply {
                 putExtra(DetailActivity.STORY_ID, storyId)
             }

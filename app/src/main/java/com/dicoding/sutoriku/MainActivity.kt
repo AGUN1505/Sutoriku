@@ -1,11 +1,13 @@
 package com.dicoding.sutoriku
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.dicoding.sutoriku.databinding.ActivityMainBinding
+import com.dicoding.sutoriku.ui.maps.MapsActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +29,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
             )
         )
+
+        binding.floatingActionButton.setOnClickListener{
+            val intentMaps = Intent(this, MapsActivity::class.java)
+            startActivity(intentMaps)
+        }
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }

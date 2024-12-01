@@ -1,13 +1,13 @@
 package com.dicoding.sutoriku.di
 
 import android.content.Context
+import com.dicoding.sutoriku.data.database.SutoriDatabase
 import com.dicoding.sutoriku.data.pref.*
 import com.dicoding.sutoriku.data.repository.*
 import com.dicoding.sutoriku.data.retrofit.ApiConfig
 import kotlinx.coroutines.runBlocking
 
 object Injection {
-
     fun registerRepository(context: Context): RegisterRepository {
         val pref = UserPreference.getInstance(context.dataStore)
         val user = runBlocking { pref.getUserToken() }
@@ -33,7 +33,8 @@ object Injection {
         val pref = UserPreference.getInstance(context.dataStore)
         val user = runBlocking { pref.getUserToken() }
         val apiService = ApiConfig.getApiService(user)
-        return SutoriRepository.getInstance(apiService)
+        val sutoriDatabase = SutoriDatabase.getInstance(context)
+        return SutoriRepository.getInstance(sutoriDatabase, apiService)
     }
 
     fun detailSutoriRepository(context: Context): DetailSutoriRepository {
@@ -45,5 +46,12 @@ object Injection {
 
     fun userPreference(context: Context): UserPreference {
         return UserPreference.getInstance(context.dataStore)
+    }
+
+    fun sutoriLocationRepository(context: Context): SutoriLocationRepository {
+        val pref = UserPreference.getInstance(context.dataStore)
+        val user = runBlocking { pref.getUserToken() }
+        val apiService = ApiConfig.getApiService(user)
+        return SutoriLocationRepository.getInstance(apiService)
     }
 }

@@ -5,8 +5,8 @@ import com.dicoding.sutoriku.data.retrofit.ApiService
 import okhttp3.*
 
 class AddSutoriRepository (private val apiService: ApiService) {
-    suspend fun addSutori(file: MultipartBody.Part, description: RequestBody): AddSutoriResponse {
-        return apiService.addStutori(file, description)
+    suspend fun addSutori(file: MultipartBody.Part, description: RequestBody, lat: RequestBody?, lon: RequestBody?): AddSutoriResponse {
+        return apiService.addStutori(file, description, lat, lon)
     }
 
     companion object {

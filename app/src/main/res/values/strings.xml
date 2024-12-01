@@ -49,5 +49,13 @@
     <string name="failed_load_story_detail">gagal memuat cerita</string>
     <string name="invalid_email">Email Tidak Valid</string>
     <string name="password_error_length">Password tidak boleh kurang dari 8 karakter</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="tampilkan_lokasi">Tampilkan Lokasi</string>
+    <string name="location_permission_denied">Akses Lokasi Ditolak</string>
+    <string name="location_not_found">Lokasi Tidak ditemukan</string>
+    <string name="text_location">Lokasi</string>
+    <string name="no_location_story">Tidak ada lokasi</string>
+    <string name="item_error_text">gagal memuat cerita</string>
+    <string name="retry_item_story">coba lagi</string>
 
 </resources>
