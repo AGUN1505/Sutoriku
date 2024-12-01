@@ -6,6 +6,7 @@ import com.dicoding.sutoriku.R
 import com.dicoding.sutoriku.data.pref.UserPreference
 import com.dicoding.sutoriku.data.repository.LoginRepository
 import com.dicoding.sutoriku.data.response.login.LoginResponse
+import com.dicoding.sutoriku.utils.IdlingResource
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 import retrofit2.HttpException
@@ -26,6 +27,7 @@ class LoginViewModel(
 
     fun loginUser(email: String, password: String) {
         _isLoading.value = true
+        IdlingResource.increment()
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = loginRepository.login(email, password)
@@ -54,6 +56,8 @@ class LoginViewModel(
                 _errorDialog.postValue(
                     getApplication<Application>().getString(R.string.login_failed_dialog)
                 )
+            } finally {
+                IdlingResource.decrement()
             }
         }
     }

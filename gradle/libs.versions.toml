@@ -20,7 +20,7 @@ material = "1.12.0"
 constraintlayout = "2.2.0"
 lifecycleLivedataKtx = "2.8.7"
 lifecycleViewmodelKtx = "2.8.7"
-mockitoCore = "4.4.0"
+mockitoCore = "4.11.0"
 mockitoInline = "4.4.0"
 navigationFragmentKtx = "2.8.3"
 navigationUiKtx = "2.8.3"
@@ -32,6 +32,7 @@ playServicesMaps = "19.0.0"
 playServicesLocation = "21.3.0"
 roomKtx = "2.6.1"
 roomPaging = "2.4.0-rc01"
+espressoIdlingResource = "3.6.1"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -71,6 +72,7 @@ okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration"
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+androidx-espresso-idling-resource = { group = "androidx.test.espresso", name = "espresso-idling-resource", version.ref = "espressoIdlingResource" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

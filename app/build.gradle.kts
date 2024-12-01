@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
+    implementation(libs.androidx.espresso.idling.resource)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -98,4 +99,7 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.mockito.inline)
     testImplementation ("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("net.bytebuddy:byte-buddy:1.14.5")
+
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
 }

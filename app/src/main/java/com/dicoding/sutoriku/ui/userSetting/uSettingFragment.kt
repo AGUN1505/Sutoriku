@@ -9,6 +9,7 @@ import androidx.fragment.app.*
 import com.dicoding.sutoriku.R
 import com.dicoding.sutoriku.databinding.FragmentNotificationsBinding
 import com.dicoding.sutoriku.ui.welcome.WelcomeActivity
+import com.dicoding.sutoriku.utils.IdlingResource
 
 class uSettingFragment : Fragment() {
 
@@ -46,11 +47,13 @@ class uSettingFragment : Fragment() {
             setTitle(getString(R.string.logout_title))
             setMessage(getString(R.string.logout_confirmation))
             setPositiveButton(getString(R.string.yes)) { _, _ ->
+                IdlingResource.increment()
                 uSettingViewModel.logout()
                 val intent = Intent(requireContext(), WelcomeActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 activity?.finish()
+                IdlingResource.decrement()
             }
             setNegativeButton(getString(R.string.no), null)
             create()
